@@ -1,14 +1,19 @@
-const express = require('express');
-const app     = express();
-const server  = require('http').Server(app);
-var mysql     = require('mysql');
-const bodyParser = require('body-parser');
+const express     = require('express');
+const app         = express();
+const server      = require('http').Server(app);
+var mysql         = require('mysql');
+const bodyParser  = require('body-parser');
 
 const __project_root = __dirname + '/src';
 
 /* project root */
 app.use(express.static(__project_root));
 
+/* 
+ * Χρησιμοποιούμε αυτό το plugin για να 
+ * μετατρέψουμε το body των POST requests 
+ * από JSON σε μεταβλήτές πιο εύκολα
+ */
 app.use(bodyParser.json());
 
 /*
@@ -21,16 +26,24 @@ app.use(express.urlencoded({
   extended: true
 }))
 
-// var con = mysql.createConnection({
-//   host: "localhost",
-//   user: "root",
-//   password: "moonbase1."
-// });
+//==================================
+//  SQL Initialisation
+//==================================
 
-// con.connect(function(err) {
-//   if (err) throw err;
-//   console.log("Connected!");
-// });
+var con = mysql.createConnection({
+  host: "localhost",
+  user: "root",
+  password: "moonbase1."
+});
+
+con.connect(function(err) {
+  if (err) throw err;
+  console.log("Connected!");
+});
+
+//==================================
+//  HTML Requests Handling
+//==================================
 
 app.get('/', (req, res) => {
 	res.sendFile('index.html');
@@ -53,6 +66,7 @@ app.post('/signup', (req, res, next) => {
   //  result handling code (a.k.a. .then())
   res.redirect('/user');
 
+  // Ολοκλήρωση του request
   res.end();
 });
 
