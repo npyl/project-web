@@ -11,7 +11,7 @@ app.use(express.static(__project_root));
 
 /* 
  * Χρησιμοποιούμε αυτό το plugin για να 
- * μετατρέψουμε το body των POST requests 
+ * μετατρέψουμε το body των POST requests
  * από JSON σε μεταβλήτές πιο εύκολα
  */
 app.use(bodyParser.json());
@@ -70,18 +70,35 @@ app.post('/signup', (req, res, next) => {
 
   con.query(query, (err, result, fields) => {
     if (err) throw err;
-    console.log(result);
+
+    // error; got no results
+    if (result.length == 0)
+      console.log('Error: no such user exists.');
+
+    // error; got more than one line 
+    if (result.length != 1)
+      console.log('Error: we have more rows than expected.');
     
-    
+    var row = JSON.parse(JSON.stringify(result[0]));
+    if (!row)
+      console.log('Error: we could not get row');
+
+    if (password == row.password)
+    {
+      // This sets redirection url in the res of the request
+      //  It will be handled by the browser code on request
+      //  result handling code (a.k.a. .then())
+      res.redirect('/user');
+    }
+    else
+    {
+      res.redirect('/');  // return to home page
+      console.log('Passwords do not match; returning to home page!');
+    }
+
+    // Ολοκλήρωση του request
+    res.end();
   });
-
-  // This sets redirection url in the res of the request
-  //  It will be handled by the browser code on request
-  //  result handling code (a.k.a. .then())
-  res.redirect('/user');
-
-  // Ολοκλήρωση του request
-  res.end();
 });
 
 // 

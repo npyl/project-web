@@ -24,8 +24,8 @@ CREATE TABLE users(
 
 -- Προσθέτουμε στοιχεία στους πίνακες
 INSERT INTO users(name, email, password, type) VALUES
-('npyl',        'n.pylarinos@hotmail.com',  '123',  'admin'),
-('ulc',         'ulcheats@gmail.com',       '456',  'user'),
-('abc',         'pylarinosnick@gmail.com',  '789',  'user'),
-('zeosleus',    'zeosleous@gmail.com',      '010',  'user'),
-('dd',          'dd@gmail.com',             '011',  'user');
+('npyl',        'n.pylarinos@hotmail.com',  'A123abcd',     'admin'),
+('ulc',         'ulcheats@gmail.com',       'B456abcd',     'user'),
+('abc',         'pylarinosnick@gmail.com',  'C789abcd',     'user'),
+('zeosleus',    'zeosleous@gmail.com',      'D010abcd',     'user'),
+('dd',          'dd@gmail.com',             'E011abcd',     'user');
