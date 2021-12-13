@@ -3,9 +3,58 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+
+    <!-- Leaflet.js -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+    integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+    crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+    integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+    crossorigin=""></script>
+
+    <title>User View</title>
 </head>
 <body>
-    
+    <style>
+        #map {
+            /* size of map */
+            height: 740px; 
+            width: 70%;
+
+            /* align to center */
+            left: 0;
+            right: 0;
+            margin: auto;
+        }
+    </style>
+
+    <div id="map"></div>
+
+    <!-- Basic Initialisation -->
+    <script src="js/init.js"></script>
+
+    <script>
+        getLocation((latitude, longitude, err) => {
+            if (err) {
+                alert(err);
+                return;
+            }
+
+            showMap(latitude, longitude);
+        });
+        
+        function showMap(latitude, longitude) {
+            var map = L.map('map').setView([latitude, longitude], 13);
+
+            L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+                attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+                maxZoom: 18,
+                id: 'mapbox/streets-v11',
+                tileSize: 512,
+                zoomOffset: -1,
+                accessToken: 'pk.eyJ1IjoibnB5bCIsImEiOiJja3g0cXhiamUwdTV2Mm9ueDhndnlpOGtsIn0.pGs3MvmhbY2mO7ZtP8rzyw'
+            }).addTo(map);
+        }
+    </script>
 </body>
 </html>
