@@ -31,9 +31,10 @@ app.use(express.urlencoded({
 //==================================
 
 var con = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "moonbase1."
+  host: 'localhost',
+  user: 'admin',
+  password: '123',
+  database: 'db'
 });
 
 con.connect(function(err) {
@@ -60,6 +61,19 @@ app.post('/signup', (req, res, next) => {
   console.log('username: ', username);
   console.log('email: ', email);
   console.log('password: ', password);
+
+  //
+  // Το query αυτό επιστρέφει το password του συγκεκριμένου user ώστε να το συγκρίνουμε
+  //  με αυτό που δίνει ο χρήστης του site.  Εάν είναι ίδιο έχουμε επιτυχία!
+  //
+  const query = "SELECT password FROM users WHERE name LIKE \'" + username + "\'";
+
+  con.query(query, (err, result, fields) => {
+    if (err) throw err;
+    console.log(result);
+    
+    
+  });
 
   // This sets redirection url in the res of the request
   //  It will be handled by the browser code on request
